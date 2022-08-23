@@ -1,0 +1,30 @@
+name: E2E ui tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout e2e ui repo 
+    - uses: actions/checkout@v2
+      with:
+        repository: Mariela2020/repo_test 
+        ref: master 
+    - name: Use Node.js 12
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12.x
+    - name: install dependencias
+      run: npm ci
+    - name: execute e2e ui tests
+      env:
+        CYPRESS_BASE_URL: "http://localhost:5000/"
+      uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
